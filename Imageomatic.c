@@ -64,20 +64,39 @@ Int2 imageCopy(Image img, Int2 n, Image res)
 	return n;
 }
 
-Int2 imageGrayscale(Image img, Int2 n, Image res)
-{
-	return int2Error;
+Int2 imageGrayscale(Image img, Int2 n, Image res) {
+	Int2 i;
+	for(i.y = 0; i.y < n.y; i.y++)
+	for(i.x = 0; i.x < n.x; i.x++) {
+		Pixel p = img[i.x][i.y];
+		int gray = pixelGrayAverage(p);
+		res[i.x][i.y] = pixelGray(gray);
+	}
+	return n;
 }
 
-Int2 imageNegative(Image img, Int2 n, Image res)
-{
-	return int2Error;
+Int2 imageNegative(Image img, Int2 n, Image res) {
+	Int2 i;
+	for(i.y = 0; i.y < n.y; i.y++)
+	for(i.x = 0; i.x < n.x; i.x++) {
+	  Pixel p = img[i.x][i.y];
+		Pixel new = pixel(MAX_COLOR - p.red, MAX_COLOR - p.green , MAX_COLOR - p.blue);
+		res[i.x][i.y] = new;
+	}
+	return n;
 }
 
-Int2 imageHalf(Image img, Int2 n, Image res)
-{
-	return int2Error;
+//nao funciona para imagens de tamanho impar
+Int2 imageHalf(Image img, Int2 n, Image res) {
+	Int2 i;
+	for(i.y = 0; i.y < n.y; i.y = i.y+2)
+	for(i.x = 0; i.x < n.x; i.x = i.x+2) {
+		res[i.x/2][i.y/2] = img[i.x][i.y];
+	}
+	i.y = n.y/2; i.x = n.x/2;
+	return i;
 }
+
 
 Int2 imagePaint(String cor, Int2 n, Image res)
 {
