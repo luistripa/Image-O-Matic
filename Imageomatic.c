@@ -139,9 +139,63 @@ Int2 imageDroplet(Int2 n, Image res) {
 	return n;
 }
 
+Int2 cropToImageBoundaries(Int2 current, Int2 limits)
+{
+	if (current.x < 0)
+		current.x = 0;
+	else if (current.x > limits.x)
+		current.x = limits.x;
+
+	if (current.y < 0)
+		current.y = 0;
+	else if (current.y > limits.y)
+		current.y = limits.y;
+
+	return current;
+}
+
 Int2 imageBlur(Image img, Int2 n, int nivel, Image res)
 {
-	return int2Error;
+	Int2 i;
+	for(i.y = 0; i.y < n.y; i.y++)
+	for(i.x = 0; i.x < n.x; i.x++) {
+		Pixel p = img[i.x][i.y];
+		
+		// Generate matrix Origin, LimitX and LimitY
+		int levels = 2 * nivel + 1;
+		Int2 O;
+		int LX, LY;
+
+		O = int2(i.x - nivel, i.y - nivel);
+		LX = O.x + levels;
+		LY = O.y + levels;
+
+		if (LX > n.x)
+			LX = n.x;
+		if (LY > n.y)
+			LY = n.y;
+
+		// Verify if origin is within the image and cut it to fit it, if needed
+		O = cropToImageBoundaries(O, n);
+
+		// Iterate over all pixels in the sub-matrix
+		Int2 j;
+		int pixel_count = 0;
+		int avgR = 0, avgG = 0, avgB = 0;
+		for (j.y = O.y; j.y < LY; j.y++)
+		for (j.x = O.x; j.x < LX; j.x++) {
+			Pixel c = img[j.x][j.y];
+			avgR = avgR + c.red;
+			avgG = avgG + c.green;
+			avgB = avgB + c.blue;
+			pixel_count++;
+		}
+
+		// Replace with the average value
+		Pixel new = pixel(avgR / pixel_count, avgG / pixel_count, avgB / pixel_count);
+		res[i.x][i.y] = new;
+	}
+	return n;
 }
 
 Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) // pre: int2Equals(n1, n2)
