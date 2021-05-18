@@ -98,8 +98,7 @@ Int2 imageHalf(Image img, Int2 n, Image res) {
 }
 
 
-Int2 imagePaint(String cor, Int2 n, Image res)
-{
+Int2 imagePaint(String cor, Int2 n, Image res) {
 	return int2Error;
 }
 
@@ -113,9 +112,16 @@ Int2 imagePosterize(Image img, Int2 n, int factor, Image res)
 	return int2Error;
 }
 
-Int2 imageDroplet(Int2 n, Image res)
-{
-	return int2Error;
+Int2 imageDroplet(Int2 n, Image res) {
+	Int2 i;
+	Int2 center = int2Half(n);
+	for(i.y = 0; i.y < n.y; i.y++)
+	for(i.x = 0; i.x < n.x; i.x++) {
+		double dist = int2Distance(center, i);
+		int gray = 0.7 * MAX_COLOR + 0.3 * sin(dist / 20.0) * MAX_COLOR;
+		res[i.x][i.y] = pixelGray(gray);
+	}
+	return n;
 }
 
 Int2 imageBlur(Image img, Int2 n, int nivel, Image res)
@@ -137,7 +143,7 @@ Int2 imageOrderedDithering(Image img, Int2 n, Image res)
 {
 	#define INDEX_SIDE  8
 	Byte indexMatrix[INDEX_SIDE][INDEX_SIDE] = {
-					{ 0, 32,  8, 40,  2, 34, 10, 42}, 
+					{ 0, 32,  8, 40,  2, 34, 10, 42},
 					{48, 16, 56, 24, 50, 18, 58, 26},
 					{12, 44,  4, 36, 14, 46,  6, 28},
 					{60, 28, 52, 20, 62, 30, 54, 22},
@@ -168,7 +174,7 @@ void imageTests(void)
 	// N
 	n = imageLoad("img/frutos.png", img);
 	n = imageNegative(img, n, res);
-	imageStore("img/negativo.png", res, n);	
+	imageStore("img/negativo.png", res, n);
 
 	// H
 	n = imageLoad("img/frutos.png", img);
@@ -221,4 +227,3 @@ void imageTests(void)
 	n = imageSteganography(img, n, "atacamos ao amanhecer", res);
 	imageStore("img/esteganografia.png", res, n);
 }
-
