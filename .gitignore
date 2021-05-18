@@ -54,3 +54,4 @@ dkms.conf
 # Compiled binaries
 ./Imageomatic
 Imageomatic
+.DS_Store

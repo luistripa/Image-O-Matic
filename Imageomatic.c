@@ -104,12 +104,27 @@ Int2 imagePaint(String cor, Int2 n, Image res) {
 
 Int2 imageRotation90(Image img, Int2 n, Image res)
 {
-	return int2Error;
+	Int2 i;
+	for(i.y = 0; i.y < n.y; i.y++)
+	for(i.x = 0; i.x < n.x; i.x++) {
+		res[n.y - i.y][i.x] = img[i.x][i.y];
+	}
+	return int2(n.y, n.x);
 }
 
 Int2 imagePosterize(Image img, Int2 n, int factor, Image res)
 {
-	return int2Error;
+
+	int G = 256 / (1 << factor);
+	Int2 i;
+	for(i.y = 0; i.y < n.y; i.y++)
+	for(i.x = 0; i.x < n.x; i.x++) {
+		Pixel p = img[i.x][i.y];
+		Pixel new = pixel(G*(p.red / G), G*(p.green / G), G*(p.blue / G));
+
+		res[i.x][i.y] = new;
+	}
+	return n;
 }
 
 Int2 imageDroplet(Int2 n, Image res) {
