@@ -469,11 +469,20 @@ static void executarComando(String parts[], int nParts)
 				break;
 			}
 			break;
+		case '=':
+			if (validateCommand(parts, nParts, "=", 1)
+				&& validateImage('A') && validateImage('B')) {
+				nc = imageCompare(ia, na, ib, nb, ic);
+				na = imageCopy(ic, nc, ia);
+			}
+			break;
 		default:
 			validateCommand(parts, nParts, "", 0);
 			break;
 	}
 }
+
+
 
 static void initialization2(void)
 {

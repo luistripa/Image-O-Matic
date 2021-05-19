@@ -99,7 +99,45 @@ Int2 imageHalf(Image img, Int2 n, Image res) {
 
 
 Int2 imagePaint(String cor, Int2 n, Image res) {
-	return int2Error;
+
+	FILE * file = fopen(colorsFileName, "r");
+
+	Pixel p = black;
+	String hex, color_name;
+	int color = 0;
+	bool hasColor = false;
+
+	// Check if cor is an hex string
+	if (strlen(cor) == 6)
+		if (sscanf(cor, "%x", cor) != EOF)
+			hasColor = true;
+
+
+	// Iterate over the entire file
+	while (fscanf(file, "%s %s", hex, color_name) != EOF && !hasColor) {
+		if (strcmp(cor, color_name) == 0) {
+			hasColor = true;
+			sscanf(hex, "%x", &color);
+			break;
+		}
+	}
+
+	if (hasColor) {
+		int red = (color & 0xFF0000) >> 16;
+		int green = (color & 0x00FF00) >> 8;
+		int blue = color & 0x0000FF;
+
+		p = pixel(red, green, blue);
+	}
+
+	// Paint the entire thing
+	Int2 i;
+	for(i.y = 0; i.y < n.y; i.y++)
+	for(i.x = 0; i.x < n.x; i.x++) {
+		res[i.x][i.y] = p;
+	}
+
+	return n;
 }
 
 Int2 imageRotation90(Image img, Int2 n, Image res)
@@ -107,7 +145,7 @@ Int2 imageRotation90(Image img, Int2 n, Image res)
 	Int2 i;
 	for(i.y = 0; i.y < n.y; i.y++)
 	for(i.x = 0; i.x < n.x; i.x++) {
-		res[n.y - i.y][i.x] = img[i.x][i.y];
+		res[(n.y-1) - i.y][i.x] = img[i.x][i.y];
 	}
 	return int2(n.y, n.x);
 }
@@ -160,7 +198,7 @@ Int2 imageBlur(Image img, Int2 n, int nivel, Image res)
 	for(i.y = 0; i.y < n.y; i.y++)
 	for(i.x = 0; i.x < n.x; i.x++) {
 		Pixel p = img[i.x][i.y];
-		
+
 		// Generate matrix Origin, LimitX and LimitY
 		int levels = 2 * nivel + 1;
 		Int2 O;
@@ -200,7 +238,20 @@ Int2 imageBlur(Image img, Int2 n, int nivel, Image res)
 
 Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) // pre: int2Equals(n1, n2)
 {
-	return int2Error;
+	// TODO: Ainda não funciona
+	Int2 i;
+	for(i.y = 0; i.y < n1.y; i.y++)
+	for(i.x = 0; i.x < n1.x; i.x++) {
+		Pixel a = img1[i.x][i.y];
+		Pixel b = img2[i.x][i.y];
+
+		int red = a.red * ((double)b.red/MAX_COLOR);
+		int green = a.green * ((double)b.green/MAX_COLOR);
+		int blue = a.blue * ((double)b.blue/MAX_COLOR);
+
+		res[i.x][i.y] = pixel(red, green, blue);
+	}
+	return n1;
 }
 
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res)
@@ -227,6 +278,40 @@ Int2 imageOrderedDithering(Image img, Int2 n, Image res)
 Int2 imageSteganography(Image img, Int2 n, String s, Image res)
 {
 	return int2Error;
+}
+
+Int2 imageCompare(Image imgA, Int2 nA, Image imgB, Int2 nB, Image res)
+{
+	bool isDifferent = false;
+
+	if (int2Equals(nA, nB) == false) {
+		printf("Images are different in size!\n");
+		printf("Size A\n\tx: %d y: %d", nA.x, nA.y);
+		printf("Size B\n\tx: %d y: %d", nB.x, nB.y);
+		return nA;
+	}
+
+	Int2 i;
+	for(i.y = 0; i.y < nA.y; i.y++)
+	for(i.x = 0; i.x < nA.x; i.x++) {
+		Pixel a = imgA[i.x][i.y];
+		Pixel b = imgB[i.x][i.y];
+
+		if (!pixelEquals(a, b)) {
+			res[i.x][i.y] = pixel(255, 0, 255);
+			isDifferent = true;
+		}
+	}
+
+	if (isDifferent) {
+		printf("Images are different! Stored in A...\n");
+		return nA;
+
+	} else {
+		printf("Images are the same!\n");
+		res = imgA;
+		return nA;
+	}
 }
 
 

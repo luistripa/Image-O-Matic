@@ -79,7 +79,7 @@ typedef Pixel Image[MAX_X][MAX_Y];
 
 typedef double (DoubleFun)(double);
 
-extern String colorsFileName; // the name of the file of colors 
+extern String colorsFileName; // the name of the file of colors
 
 void initialization(void);
 extern Int2 imageLoad(String filename, Image res);
@@ -99,6 +99,6 @@ extern Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res);
 extern Int2 imageOrderedDithering(Image img, Int2 n, Image res);
 extern Int2 imageSteganography(Image img, Int2 n, String s, Image res);
 
+Int2 imageCompare(Image imgA, Int2 nA, Image imgB, Int2 nB, Image res);
+
 extern void imageTests(void);
-
-
