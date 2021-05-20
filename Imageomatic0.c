@@ -163,7 +163,7 @@ bool imageStore(String filename, Image img, Int2 n)
 	for(i.x = 0; i.x < n.x; i.x++) {
 		*p++ = img[i.x][i.y];
 	}
-	if( lodepng_encode24_file(filename, mem, n.x, n.y) != 0 )	
+	if( lodepng_encode24_file(filename, mem, n.x, n.y) != 0 )
 		return false;
 	free(mem);
 	return true;
@@ -520,7 +520,7 @@ static void interpreter(void)
 			printf("%s", line);
 		}
 		nParts = stringSplit(line, parts, MAX_PARTS);
-#if 0	
+#if 0
 		for( int i = 0 ; i < nParts ; i++ )
 			printf("%s\n", parts[i]);
 #endif
@@ -535,9 +535,3 @@ int main(void)
 	interpreter();
 	return 0;
 }
-
-
-
-
-
-

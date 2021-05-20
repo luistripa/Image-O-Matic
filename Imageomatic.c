@@ -253,7 +253,27 @@ Int2 imageMask(Image img1, Int2 n1, Image img2, Int2 n2, Image res) // pre: int2
 
 Int2 imageFunctionPlotting(DoubleFun fun, int scale, Int2 n, Image res)
 {
-	return int2Error;
+	Int2 center = int2Half(n);
+
+	// Draw the x and y axis and white background
+	Int2 i;
+	for(i.y = 0; i.y < n.y; i.y++)
+	for(i.x = 0; i.x < n.x; i.x++) {
+		if (i.x == center.x || i.y == center.y)
+			res[i.x][i.y] = black;
+		else
+			res[i.x][i.y] = white;
+	}
+
+	// Draw the function
+	for (int x=-center.x; x<center.x; x++) {
+		double value = scale*fun((double)x/scale);
+		int position = fabs(value - center.y);
+
+		if (value < center.y && value > -center.y)
+			res[x+center.x][position] = black;
+	}
+	return n;
 }
 
 Int2 imageOrderedDithering(Image img, Int2 n, Image res)
@@ -269,7 +289,7 @@ Int2 imageOrderedDithering(Image img, Int2 n, Image res)
 					{15, 47,  7, 39, 13, 45,  5, 37},
 					{63, 31, 55, 23, 61, 29, 53, 21}
 			};
-		Int2 i;
+	Int2 i;
     for(i.y = 0; i.y < n.y; i.y++)
     for(i.x = 0; i.x < n.x; i.x++) {
       Pixel p = img[i.x][i.y];
@@ -305,7 +325,43 @@ char convertToSixBits(char c) {
 
 Int2 imageSteganography(Image img, Int2 n, String s, Image res)
 {
-	return int2Error;
+	int stringIndex = 0;
+	int maxLen = (n.x * n.y)-1;
+	if (strlen(s) < maxLen)
+		maxLen = strlen(s);
+
+	Int2 i;
+	for(i.y = 0; i.y < n.y; i.y++)
+	for(i.x = 0; i.x < n.x; i.x++) {
+		Pixel p = img[i.x][i.y];
+
+		if (stringIndex < maxLen) {
+			char c = s[stringIndex++];
+			c = convertToSixBits(c);
+			printf("%d\n", c);
+
+			int red = (p.red & 0b11111100) + ((0b00110000 & c)>>4);
+			int green = (p.green & 0b11111100) + ((0b00001100 & c)>>2);
+			int blue = (p.blue & 0b11111100) + (0b00000011 & c);
+
+			printf("%d %d\n", red, p.red);
+			printf("%d %d\n", green, p.green);
+			printf("%d %d\n", blue, p.blue);
+
+			res[i.x][i.y] = pixel(red, green, blue);
+
+		} else if (stringIndex == maxLen) {
+			int red = (p.red & 0b11111100);
+			int green = (p.green & 0b11111100);
+			int blue = (p.blue & 0b11111100);
+
+			res[i.x][i.y] = pixel(red, green, blue);
+			stringIndex++;
+
+		} else
+			res[i.x][i.y] = p;
+	}
+	return n;
 }
 
 Int2 imageCompare(Image imgA, Int2 nA, Image imgB, Int2 nB, Image res)
