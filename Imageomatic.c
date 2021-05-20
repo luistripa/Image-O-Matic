@@ -269,7 +269,21 @@ Int2 imageOrderedDithering(Image img, Int2 n, Image res)
 					{15, 47,  7, 39, 13, 45,  5, 37},
 					{63, 31, 55, 23, 61, 29, 53, 21}
 			};
-	return int2Error;
+		Int2 i;
+    for(i.y = 0; i.y < n.y; i.y++)
+    for(i.x = 0; i.x < n.x; i.x++) {
+      Pixel p = img[i.x][i.y];
+      double average =  pixelGrayAverage(p)/4.0;
+      int x = i.x % INDEX_SIDE;
+      int y = i.y % INDEX_SIDE;
+
+      if (average > (double) indexMatrix[x][y])
+          res[i.x][i.y] = white;
+      else {
+          res[i.x][i.y] = black;
+      }
+    }
+    return n;
 }
 
 char convertToSixBits(char c) {
