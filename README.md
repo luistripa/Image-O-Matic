@@ -1,5 +1,5 @@
 # Image-O-Matic
-A C project to manipulate PNG images using the lodepng library
+A C project to manipulate PNG images using the [lodepng](https://lodev.org/lodepng/) library
 
 To run it, download the repo and run `make` inside the directory. Afterwards, run `./Imageomatic`.
 
