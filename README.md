@@ -14,44 +14,44 @@ To run it, download the repo and run `make` inside the directory. Afterwards, ru
 
 ![Gray scale image](img/gray.png)
 
-- `N` turns the iamge to a negative image. Only for register `A`
+- `N` turns the image in. regsiter `A` to a negative image. Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/negativo.png)
 
-- `H` scales the image to half its original size. Only for register `A`
+- `H` scales the image in register `A` to half its original size. Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/metade.png)
 
-- `P <color> <width> <height>` creates a new image with just the color `<color>`. `<color>` can be hexadecimal or a name of a color inside `cores.txt`. The image is saved in register `A`
+- `P <color> <width> <height>` creates a new image with just the color `<color>`. `<color>` can be hexadecimal or a name of a color inside `cores.txt`. Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/pintar.png)
 
-- `R` rotates the image in register `A`
+- `R` rotates the image in register `A` 90 degrees.  Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/rotacao_90.png)
 
-- `O` posterizes the image (reduced color pallete). Only for register `A`
+- `O` posterizes the image (reduced color pallete) in register `A`. Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/poster.png)
 
-- `G <width> <height>` creates a image simulating the waves created by a drop of water. Saved in register `A`
+- `G <width> <height>` creates a image simulating the waves created by a drop of water. Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/goticula.png)
 
-- `D` blurs the image in register `A`. This is not gaussian blur.
+- `D` blurs the image in register `A`. This is not gaussian blur. Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/desfocado.png)
 
-- `M` places a mask onto the image saved in register `A`. The mask is saved in register `B`. The mask and the image must have the same size.
+- `M` places a mask onto the image saved in register `A`. The mask is saved in register `B`. The mask and the image must have the same size. Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/mascarar.png)
 
-- `F <width> <height> <scale>` creates an image with a graph representation of a function. Saves in register `A`
+- `F <width> <height> <scale>` creates an image with a graph representation of a function. Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/funcao.png)
 
-- `T` converts an image using a dithering algorithm. Only for register `A`
+- `T` converts the image in register `A` using a dithering algorithm. Resulting image will be stored in register `A`.
 
 ![Gray scale image](img/matizacao.png)
 
-- `E` conceals a message into the image in register `A`, also known as steganography. It uses 6-bit ASCII tables to store the text in the two least-significant bits of the R, G and B components of the image.
+- `E` conceals a message into the image in register `A`, also known as steganography. It uses 6-bit ASCII tables to store the text in the two least-significant bits of the R, G and B components of the image. Resulting image will be stored in register `A`.
