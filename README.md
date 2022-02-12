@@ -16,7 +16,7 @@ To run it, download the repo and run `make` inside the directory. Afterwards, ru
 
 - `N` turns the iamge to a negative image. Only for register `A`
 
-![Gray scale image](img/negative.png)
+![Gray scale image](img/negativo.png)
 
 - `H` scales the image to half its original size. Only for register `A`
 
